@@ -87,6 +87,18 @@ export class BoundingBoxDrawer extends CanvasElement {
         this.timeToInstances[time?.toFixed(6)].instanceData.push(instance);
     }
 
+    public canvasArrow(fromx: number, fromy: number, tox: number, toy: number) {
+        var headlen = 10; // length of head in pixels
+        var dx = tox - fromx;
+        var dy = toy - fromy;
+        var angle = Math.atan2(dy, dx);
+        this.context.moveTo(fromx, fromy);
+        this.context.lineTo(tox, toy);
+        this.context.lineTo(tox - headlen * Math.cos(angle - Math.PI / 6), toy - headlen * Math.sin(angle - Math.PI / 6));
+        this.context.moveTo(tox, toy);
+        this.context.lineTo(tox - headlen * Math.cos(angle + Math.PI / 6), toy - headlen * Math.sin(angle + Math.PI / 6));
+      }
+
     public draw() {
         if (!this.requestAnimFrameCounter) {
             return;
@@ -160,26 +172,51 @@ export class BoundingBoxDrawer extends CanvasElement {
                 let label = `${instanceData.entity.tag} ${instanceData.entity.id || ''}`;
                 let confidence = `confidence: ${instanceData.entity.confidence}`;
                 let speed = `speed: ${instanceData.entity.speed}`;
+                let orientation = `${instanceData.entity.orientation}`;
 
                 let labelWidth = this.displayTextWidth(label);
                 if (labelWidth > w) {
                     label = `${label.substring(0, 10)}...`;
                     labelWidth = this.displayTextWidth(label);
                 }
+
+                if (confidence.length > 16) {
+                    confidence = confidence.substring(0, 16);
+                }
+
+                if (speed.length > 11) {
+                    speed = speed.substring(0, 11);
+                }
+
                 this.getFontSize();
                 const width = labelWidth + this.PADDING_RIGHT * 2 * this.ratio;
                 const height = this.getFontSize() + this.PADDING_TOP * 2 * this.ratio;
                 this.context.strokeRect(x + this.PADDING_RIGHT, y - height - this.ratio, width, height);
-                this.context.strokeRect(x + this.PADDING_RIGHT, y - height - this.ratio - 20, 150, height);
-                this.context.strokeRect(x + this.PADDING_RIGHT, y - height - this.ratio - 40, 80, height);
+                this.context.strokeRect(x + this.PADDING_RIGHT, y - height - this.ratio - 20, 100, height);
+                this.context.strokeRect(x + this.PADDING_RIGHT, y - height - this.ratio - 40, 70, height);
                 this.context.fillRect(x + this.PADDING_RIGHT, y - height - this.ratio, width, height);
-                this.context.fillRect(x + this.PADDING_RIGHT, y - height - this.ratio - 20, 150, height);
-                this.context.fillRect(x + this.PADDING_RIGHT, y - height - this.ratio - 40, 80, height);
+                this.context.fillRect(x + this.PADDING_RIGHT, y - height - this.ratio - 20, 100, height);
+                this.context.fillRect(x + this.PADDING_RIGHT, y - height - this.ratio - 40, 70, height);
                 this.context.fillStyle = 'white';
 
                 this.context.fillText(label, x + this.PADDING_RIGHT * this.ratio, y - this.PADDING_TOP * 2 * this.ratio);
                 this.context.fillText(confidence, x + this.PADDING_RIGHT * this.ratio, y - this.PADDING_TOP * 2 * this.ratio - 20);
                 this.context.fillText(speed, x + this.PADDING_RIGHT * this.ratio, y - this.PADDING_TOP * 2 * this.ratio - 40);
+
+                this.context.beginPath();
+                this.context.arc(x + w/2, y + h/2, 5, 0, 2 * Math.PI, true);
+                this.context.fillStyle = 'blue';
+                this.context.fill();
+
+                if (orientation !== 'inf') {
+                    this.context.beginPath();
+                    this.context.strokeStyle = 'white';
+                    this.context.lineWidth = 3;
+                    let floatOrientation = parseFloat(orientation);
+
+                    this.canvasArrow(x + w/2, y + h/2, x + w/2 + w/2 * Math.cos(floatOrientation), y + h/2 + w/2 * Math.sin(floatOrientation));
+                    this.context.stroke();
+                }
             }
 
             this.context.stroke();
@@ -238,4 +275,5 @@ export interface IEntity {
     tag: string;
     confidence: string;
     speed: string;
+    orientation: string;
 }

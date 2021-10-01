@@ -75,11 +75,11 @@
 
     function onPlayButtonClick() {
       const clientApiEndpointUrlInput = document.querySelector('#clientApiEndpointUrlInput');
-      const clientApiEndpointUrl = clientApiEndpointUrlInput.value;
+      const clientApiEndpointUrl = clientApiEndpointUrlInput.value || 'https://85f99fd57c3a421e9fc2e943443e0f2d.api.westus2-2.videoanalyzer.azure.net';
       const videoNameInput = document.querySelector('#videoNameInput');
-      const videoName = videoNameInput.value;
+      const videoName = videoNameInput.value || 'RetailShop-Speed-Orientation-Sept2021';
       const clientApiTokenInput = document.querySelector('#clientApiTokenInput');
-      const token = clientApiTokenInput.value;
+      const token = clientApiTokenInput.value || 'eyJhbGciOiJSUzI1NiIsImtpZCI6IjAxQkRFNEQ0ODIzNjAyMzk0MzkyRUZGOTIwQTFGNUI4REU4OTQ2RTIiLCJ4NXQiOiJBYjNrMUlJMkFqbERrdV81SUtIMXVONkpSdUkiLCJ0eXAiOiJKV1QifQ.eyJuYmYiOjE2MzA0NTA0NjksImV4cCI6NDEwMjQ0NDgwMCwiaWF0IjoxNjMwNDUwNzY5LCJpc3MiOiJodHRwczovL2NvbnRvc28uY29tIiwiYXVkIjoiaHR0cHM6Ly84NWY5OWZkNTdjM2E0MjFlOWZjMmU5NDM0NDNlMGYyZC5hcGkud2VzdHVzMi0yLnZpZGVvYW5hbHl6ZXIuYXp1cmUubmV0L3ZpZGVvcy8qIn0.dNnzRwxcnBRmYeIv1TKpQPcY8EaC_F8LGxAEAWTYnqpT1D3l5tM76_IpbJAANuyVVsTj03PLmdd_1lB32FE3wGqqMvbrEyRDnWGgPd-4zyCfpwS8IQVQoh8lDiDHCCsT9KxQSSLqsZpUM2TokdXw1l6z-oR91UVv71YPWPepSg8ul6OHhCCoFLlMHqPW74Wy30hpe5zLGve-Q1gNHozY6fLOzDEyLGQestPwVAqsLp8VhBHmrEwuWL03XotoJDF0ClDHgXAoPhYAMpg9e5qDi3kyKt2loJgPTDU-DIIaJm8PNaryMYjiTHvosjBcyaQoCGhWE9YLAHHODFOE2svUvQ';
       const muteInput = document.querySelector('#muteInput');
       const mute = (muteInput.value === "true") ? true : false;
 

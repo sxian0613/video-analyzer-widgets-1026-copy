@@ -549,7 +549,8 @@ export class PlayerWrapper {
                         id: iterator.entity.id || iterator.sequenceId,
                         tag: iterator.entity.tag.value,
                         confidence: iterator.entity.tag.confidence,
-                        speed: iterator.extensions.speed
+                        speed: iterator.extensions.speed,
+                        orientation: iterator.extensions.mappedImageOrientation
                     };
                 }
                 this.boundingBoxesDrawer.addItem(emsg.startTime, emsg.endTime, data);
